@@ -105,6 +105,10 @@ void ChessGame::drawStates()
 			{
 				SDL_SetRenderDrawColor(renderer,127,127,0,127);
 			}
+			if(squareState[i][j] == 'm')
+			{
+				SDL_SetRenderDrawColor(renderer,0,127,0,127);
+			}
 			SDL_RenderFillRect(renderer,&sq);
 		}
 	}
@@ -172,6 +176,7 @@ void ChessGame::handleClick(const int &i,const int &j)
 			{
 				moving_piece[0] = i;
 				moving_piece[1] = j;
+				squareState[i][j] = 'm';
 				calculateMoves();
 				moving = true;
 			}
@@ -180,12 +185,17 @@ void ChessGame::handleClick(const int &i,const int &j)
 			{
 				moving_piece[0] = i;
 				moving_piece[1] = j;
+				squareState[i][j] = 'm';
 				calculateMoves();
 				moving = true;
 			}
 		}
 
+		
+
 	}else{
+
+		squareState[moving_piece[0]][moving_piece[1]] = '-';
 
 		//IMLEMENT CHECK AND PLAYER CHANGE
 
@@ -253,7 +263,7 @@ void ChessGame::calculateMoves()
 	int r = moving_piece[0],c = moving_piece[1];
 	char piece = chessboard[r][c];
 
-	if(toupper(piece) == 'P')
+	if(toupper(piece) == 'P') //Calculate Pawn moves
 	{
 		if(chessboard[r-1][c] == '.')
 		{
@@ -274,7 +284,7 @@ void ChessGame::calculateMoves()
 		return;
 	}
 
-	if(toupper(piece) == 'R')
+	if(toupper(piece) == 'R') //Calculate Rook moves
 	{
 		//Calculate possible moves on the right
 		for(int j = c+1;j<8;j++)
@@ -342,7 +352,7 @@ void ChessGame::calculateMoves()
 		return;
 	}
 
-	if(toupper(piece) == 'B')
+	if(toupper(piece) == 'B') //Calculate Bishop moves
 	{
 		//Checks for moves downwards right
 		for(int i = r+1,j=c+1;(i<8&&j<8);i++,j++)
@@ -408,7 +418,7 @@ void ChessGame::calculateMoves()
 		return;
 	}
 
-	if(toupper(piece) == 'Q')
+	if(toupper(piece) == 'Q') //Calculate Queen moves
 	{
 		//Calculate possible moves on the right
 		for(int j = c+1;j<8;j++)
@@ -537,7 +547,7 @@ void ChessGame::calculateMoves()
 		return;
 	}
 
-	if(toupper(piece) == 'N')
+	if(toupper(piece) == 'N') //Calculate Knight moves
 	{
 		//Check moves on the right
 		int j = c + 2;
@@ -645,7 +655,7 @@ void ChessGame::calculateMoves()
 		return;
 	}
 
-	if(toupper(piece) == 'K')
+	if(toupper(piece) == 'K') //Calculate King moves
 	{
 		for(int i = r-1;i<r+2;i++)
 		{
@@ -663,6 +673,14 @@ void ChessGame::calculateMoves()
 					mark(i,j,'c');
 				}
 			}
+		}
+		
+		if(piece == 'K') //White king
+		{
+
+		}else if(piece == 'k') //Black king (added condition to clarify ambiguity)
+		{
+
 		}
 		return;
 	}

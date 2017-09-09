@@ -85,6 +85,7 @@ class ChessGame
 			'p' if the square is a possible move
 			'k' if the square is a king at check
 			'c' if the square is a capture
+			'm' if the square contains the current moving piece
 		*/
 		char squareState[8][8] = {
 			{'-','-','-','-','-','-','-','-'},
