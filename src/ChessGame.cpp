@@ -206,7 +206,8 @@ void ChessGame::handleClick(const int &i,const int &j)
 			chessboard[moving_piece[0]][moving_piece[1]] = '.';
 			if( (check()+white_turn)!=2 ){ //It is a safe move to make
 
-				switch(chessboard[i][j]) // Check if castling is still possible
+				// Check if castling is still possible
+				switch(chessboard[i][j])
 				{
 					case 'K':
 						castling[0][0] = false; //White castling to the right of the king is no longer possible (the rest follow)
@@ -230,6 +231,8 @@ void ChessGame::handleClick(const int &i,const int &j)
 							break;
 					}
 				}
+
+				//End checking castling
 
 				white_turn = !white_turn;
 				turnBoard();
