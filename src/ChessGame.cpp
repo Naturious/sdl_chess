@@ -265,11 +265,11 @@ void ChessGame::calculateMoves()
 		}
 		if(differentCamps(piece,chessboard[r-1][c+1]) && chessboard[r-1][c+1]!='.')
 		{
-			mark(r+1,c+1,'c');
+			mark(r-1,c+1,'c');
 		}
 		if(differentCamps(piece,chessboard[r-1][c-1]) && chessboard[r-1][c-1]!='.')
 		{
-			mark(r+1,c-1,'c');
+			mark(r-1,c-1,'c');
 		}
 		return;
 	}
