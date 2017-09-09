@@ -136,6 +136,11 @@ class ChessGame
 
 		int moving_piece[2] = {0};
 
+		bool castling[2][2] = {{true,true},{true,true}}; 
+		// castling[0] is white and castling[1] is black
+		// castling[x][0] is right and castling[x][1] is left
+		// castling[x][y] contains whether player x can still castle to the y of his king
+
 };
 
 #endif

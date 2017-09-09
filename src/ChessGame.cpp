@@ -205,6 +205,32 @@ void ChessGame::handleClick(const int &i,const int &j)
 			chessboard[i][j] = chessboard[moving_piece[0]][moving_piece[1]];
 			chessboard[moving_piece[0]][moving_piece[1]] = '.';
 			if( (check()+white_turn)!=2 ){ //It is a safe move to make
+
+				switch(chessboard[i][j]) // Check if castling is still possible
+				{
+					case 'K':
+						castling[0][0] = false; //White castling to the right of the king is no longer possible (the rest follow)
+						castling[0][1] = false; // ..
+						break;
+					case 'k':
+						castling[1][0] = false; // ..
+						castling[1][1] = false; // ..
+						break;
+				}
+
+				if(moving_piece[0] == 7)
+				{
+					switch(moving_piece[1])
+					{
+						case 0:
+							castling[!white_turn][1] = false;
+							break;
+						case 7:
+							castling[!white_turn][0] = false;
+							break;
+					}
+				}
+
 				white_turn = !white_turn;
 				turnBoard();
 				/*YOU SHOULD CHECK IF CHECKMATE HERE --------------------------------------------
@@ -226,7 +252,8 @@ void ChessGame::handleClick(const int &i,const int &j)
 				*/
 				checkmate(!white_turn);
 
-			}else{
+			}else{ // This isn't a safe move to make, return everything to its initial state
+
 				chessboard[moving_piece[0]][moving_piece[1]] = chessboard[i][j];
 				chessboard[i][j] = '.';
 			}
@@ -674,14 +701,29 @@ void ChessGame::calculateMoves()
 				}
 			}
 		}
-		
-		if(piece == 'K') //White king
-		{
 
-		}else if(piece == 'k') //Black king (added condition to clarify ambiguity)
+		// Check castling
+		if(castling[piece == 'k'][0]) // (piece == 'k') here returns 1 if you're black else 0 
 		{
-
+			if(chessboard[7][6] == '.')
+			{
+				mark(7,6,'p');
+			}else if(differentCamps(chessboard[7][6],piece))
+			{
+				mark(7,6,'c');
+			}
 		}
+		if(castling[piece == 'k'][1])
+		{
+			if(chessboard[7][1] == '.')
+			{
+				mark(7,1,'p');
+			}else if(differentCamps(chessboard[7][1],piece))
+			{
+				mark(7,1,'c');
+			}
+		}
+
 		return;
 	}
 }
